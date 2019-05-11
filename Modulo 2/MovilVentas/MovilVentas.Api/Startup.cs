@@ -9,10 +9,14 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using MovilVentas.Infrastructure;
+using MovilVentas.Infrastructure.Interfaces;
+using MovilVentas.Infrastructure.Repositories;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace MovilVentas.Api
@@ -53,6 +57,30 @@ namespace MovilVentas.Api
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
             });
+
+            #region Repositories
+            services.AddScoped<IClienteRepository, ClienteRepository>();
+            #endregion
+
+
+            #region EntityFramework
+
+            string connectionString = Configuration.GetConnectionString("MovilVentasDB");
+
+            services.AddDbContext<MovilVentasContext>(options =>
+              options
+                  .UseSqlServer(connectionString,
+                  sqlOptions =>
+                  {
+                      sqlOptions.EnableRetryOnFailure(
+                      maxRetryCount: 3,
+                      maxRetryDelay: TimeSpan.FromSeconds(10),
+                      errorNumbersToAdd: null);
+                  }).EnableSensitiveDataLogging());
+
+
+
+            #endregion
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
