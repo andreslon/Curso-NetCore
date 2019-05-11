@@ -10,6 +10,18 @@ namespace MovilVentas.Domain.Entities
         public int Edad { get; set; }
         public bool Activo { get; set; }
 
+        public int cantidadClientes { get; set; }
+        public decimal valorCliente { get; set; }
+
+
+
+        public decimal CalcularComision()
+        {
+            return valorCliente * cantidadClientes; 
+
+        } 
+
+
         //public ClienteEntity(int id, string nombres)
         //{
         //    this.Id = id;

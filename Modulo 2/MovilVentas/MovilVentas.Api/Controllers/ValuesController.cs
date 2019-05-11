@@ -8,14 +8,11 @@ using MovilVentas.Infrastructure.Interfaces;
 
 namespace MovilVentas.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     public class ValuesController : ControllerBase
     {
-        public ValuesController(IClienteRepository clienteRepository)
-        {
-            var data = clienteRepository.Get();
-        }
+         
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()

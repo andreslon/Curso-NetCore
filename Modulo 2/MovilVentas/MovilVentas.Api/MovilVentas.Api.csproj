@@ -17,4 +17,7 @@
     <ProjectReference Include="..\MovilVentas.Domain\MovilVentas.Domain.csproj" />
     <ProjectReference Include="..\MovilVentas.Infrastructure\MovilVentas.Infrastructure.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Dtos\" />
+  </ItemGroup>
 </Project>
