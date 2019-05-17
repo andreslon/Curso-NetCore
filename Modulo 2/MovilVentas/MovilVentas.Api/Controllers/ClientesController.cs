@@ -7,6 +7,8 @@ using MovilVentas.Api.Dtos;
 using MovilVentas.Api.Interfaces;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
+using Swashbuckle.AspNetCore.SwaggerGen;
+
 namespace MovilVentas.Api.Controllers
 {
     [Route("api/v1/[controller]")]
@@ -17,31 +19,29 @@ namespace MovilVentas.Api.Controllers
         {
             ClienteService = clienteService;
         }
-        //GET api/v1/clientes
+        //GET api/v1/clientes/?paginaactual=4
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult Get(int? paginaactual=0)
         {
             try
-            {
-                 
-                return Ok(new ClienteDto[] {  });
+            { 
+                return Ok(ClienteService.Get());
 
             }
             catch (Exception ex)
             {
                 return BadRequest(ex);
-            }
-
-           
+            } 
         }
 
-        //GET api/v1/clientes/{id}
-        [HttpGet("{id}")]
+         
+
+        [HttpGet("{id}")] 
         public IActionResult Get(int id)
         {
             try
             {
-                var response = new ClienteDto { };
+                var response = ClienteService.Get(id);
                 if (response==null)
                 {
                     return NotFound();
@@ -77,14 +77,36 @@ namespace MovilVentas.Api.Controllers
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public IActionResult Put(int id, [FromBody]ClienteDto body)
         {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                 ClienteService.Update(id,body);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
         }
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            try
+            { 
+                ClienteService.Delete(id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
         }
     }
 }

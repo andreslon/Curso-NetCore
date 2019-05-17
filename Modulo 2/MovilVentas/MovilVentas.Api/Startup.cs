@@ -66,7 +66,7 @@ namespace MovilVentas.Api
             #region Services
             services.AddScoped<IClienteService, ClienteService>();
             #endregion
-
+             
 
             #region EntityFramework
 

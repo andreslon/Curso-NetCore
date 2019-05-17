@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using MovilVentas.Api.Dtos;
 using MovilVentas.Api.Interfaces;
 using MovilVentas.Domain.Entities;
@@ -18,12 +19,12 @@ namespace MovilVentas.Api.Services
         {
             var entity = new ClienteEntity
             {
-                Activo= dto.Activo,
+                Activo = dto.Activo,
                 Apellidos = dto.Apellidos,
-                Edad = dto.Edad ,
-                FechaNacimiento = dto.FechaNacimiento  ,
-                Nombres = dto.Nombres 
-            }; 
+                Edad = dto.Edad,
+                FechaNacimiento = dto.FechaNacimiento,
+                Nombres = dto.Nombres
+            };
             entity.CalcularComision();
 
 
@@ -33,27 +34,56 @@ namespace MovilVentas.Api.Services
             dto.Id = newEntity.Id;
 
 
-            return  dto;
+            return dto;
         }
 
         public void Delete(int Id)
         {
-            throw new NotImplementedException();
+            ClienteRepository.Delete(Id);
         }
 
         public List<ClienteDto> Get()
         {
-            throw new NotImplementedException();
+            var list = ClienteRepository.Get();
+            return list.Select(client => new ClienteDto
+            {
+                Activo = client.Activo,
+                Nombres = client.Nombres,
+                Apellidos = client.Apellidos,
+                Edad = client.Edad,
+                Id = client.Id
+
+            }).ToList();
+
         }
 
         public ClienteDto Get(int Id)
         {
-            throw new NotImplementedException();
+            var client = ClienteRepository.Get(Id);
+            return new ClienteDto
+            {
+                Activo = client.Activo,
+                Nombres = client.Nombres,
+                Apellidos = client.Apellidos,
+                Edad = client.Edad,
+                Id = client.Id
+            };
         }
 
-        public void Update(int Id, ClienteDto entity)
+        public void Update(int Id, ClienteDto dto)
         {
-            throw new NotImplementedException();
+            var entity = new ClienteEntity
+            {
+                Id = dto.Id,
+                Activo = dto.Activo,
+                Apellidos = dto.Apellidos,
+                Edad = dto.Edad,
+                FechaNacimiento = dto.FechaNacimiento,
+                Nombres = dto.Nombres
+            };
+            entity.CalcularComision();
+
+            ClienteRepository.Update(Id, entity);
         }
     }
 }

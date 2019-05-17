@@ -138,12 +138,14 @@ namespace MovilVentas.Infrastructure.Repositories
             cliente.FechaNacimiento = entity.FechaNacimiento; 
 
             Context.Cliente.Update(cliente);
+            Context.SaveChanges();
         }
 
         public void Delete(int Id)
         {
             ClienteTable cliente = Context.Cliente.FirstOrDefault(x => x.Id == Id);
             Context.Cliente.Remove(cliente);
+            Context.SaveChanges();
         }
     }
 }
