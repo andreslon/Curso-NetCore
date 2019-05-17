@@ -107,6 +107,8 @@ namespace MovilVentas.Infrastructure.Repositories
                 FechaNacimiento = entity.FechaNacimiento
             });
 
+            Context.SaveChanges();
+
 
             //Expresion para validar objeto y determinar el valor cuando es true y cuando es false
             //var val = cliente != null ? true : false;

@@ -14,6 +14,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using MovilVentas.Api.Interfaces;
+using MovilVentas.Api.Services;
 using MovilVentas.Infrastructure;
 using MovilVentas.Infrastructure.Interfaces;
 using MovilVentas.Infrastructure.Repositories;
@@ -60,6 +62,9 @@ namespace MovilVentas.Api
 
             #region Repositories
             services.AddScoped<IClienteRepository, ClienteRepository>();
+            #endregion
+            #region Services
+            services.AddScoped<IClienteService, ClienteService>();
             #endregion
 
 

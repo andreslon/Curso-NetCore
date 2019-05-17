@@ -4,13 +4,19 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MovilVentas.Api.Dtos;
+using MovilVentas.Api.Interfaces;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace MovilVentas.Api.Controllers
 {
     [Route("api/v1/[controller]")]
     public class ClientesController : Controller
-    { 
+    {
+        public IClienteService ClienteService { get; set; }
+        public ClientesController(IClienteService clienteService)
+        {
+            ClienteService = clienteService;
+        }
         //GET api/v1/clientes
         [HttpGet]
         public IActionResult Get()
@@ -59,13 +65,14 @@ namespace MovilVentas.Api.Controllers
                 {
                     return BadRequest(ModelState);
                 }
+                var result = ClienteService.Create(body);
+                return Ok(result);
             }
             catch (Exception ex)
             {
-                return BadRequest()
+                return BadRequest(ex);
             }
-
-
+             
         }
 
         // PUT api/values/5
